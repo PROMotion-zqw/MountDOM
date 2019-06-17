@@ -11,6 +11,7 @@ window._ = {
             },
             append_sort: 0,
             children: [
+                //Hippo+
                 {
                     a: {
                         css: {
@@ -23,13 +24,14 @@ window._ = {
                             textAlign: 'center',
                             fontWeight: '500'
                         },
-                        text: "Index",
+                        text: "Hippo+",
                         Props: {
                             href: "/"
                         }
                     }
                 },
-            ]
+            ],
+            class: 'navs'
         },
         footer: {
             append_sort: 0,
@@ -49,60 +51,18 @@ window._ = {
                         display: 'inline-block',
                         height: '50px',
                         background: 'white',
-                    },
+                    }
                 }
             }]
         }
     },
     events: {
         class: {
-            test: {
+            navs: {
                 click: [function (o) {
-                    let $el = o.item.children[0];
-                    o.item.onselectstart = function () {
-                        return false;
-                    }
-                    o.item.addEventListener(o.target, function (e) {
-                        e.stopPropagation();
-                        o.lag = !o.lag;
-                        o.method.Ident(".child", {display: 'none'}, o.index)
-                        $el.style.display === "block" ? $el.style.display = "none" : $el.style.display = "block";
-                        if (o.index == 2) {
-                            o.method.Ident(".child")[2].style.width !== "180px" ? o.method.Ident(".child")[2].style.width = "180px" : null;
-                        }
-                    })
-                    o.doc.addEventListener(o.target, function () {
-                        o.method.Ident(".child", {display: 'none'})
-                    })
-                    o.item = null;
-                }]
-            },
-            hov: {
-                mouseover: [function (o) {
-                    o.item.addEventListener(o.target, function (e) {
-                        e.stopPropagation()
-                        this.style.backgroundColor = "#345"
-                        o.item = null;
-                    })
-                }],
-                mouseout: [function (o) {
-                    o.item.addEventListener(o.target, function () {
-                        this.style.backgroundColor = ""
-                        o.item = null
-                    })
-                }]
-            },
-            light: {
-                mouseover: [function (o) {
-                    o.item.addEventListener(o.target, function () {
-                        this.style.backgroundColor = "#345"
-                        o.item = null;
-                    })
-                }],
-                mouseout: [function (o) {
-                    o.item.addEventListener(o.target, function () {
-                        this.style.backgroundColor = ""
-                        o.item = null
+                    //考虑到多个元素同时添加事件 的不友好 请暂时使用add方法来执行事件 参数 (元素, 回调函数)
+                    o.add(o.item, () => {
+                        alert("nav标签被点击!")
                     })
                 }]
             }

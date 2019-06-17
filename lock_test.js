@@ -91,8 +91,9 @@
                                     index: ei,
                                     target: target,
                                     doc,
-                                    method: window.common,
-                                    lag: false
+                                    add: function (o, fn) {
+                                        o.addEventListener(target, fn)
+                                    }
                                 })
                             })
                         }
@@ -263,7 +264,7 @@
     o.AppendDoc(o.DOM)
     o.GetDoc(document.children)
 
-    o.Events(o.events)
+    o.Events(o.events || {})
     console.log('###', [document], o.DOM);
 })(window._ || {})
 
