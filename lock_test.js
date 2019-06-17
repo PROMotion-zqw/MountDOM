@@ -1,20 +1,14 @@
-/** 
- *  default attribute :
- *      'append_sort': The 'append_sort' attribute must be added at the first level inside the DOM Object and the value is zero.
- *      'mul': The 'mul' attribute must be a 'Number' type.
- *  Html labels :
- *        
- */
+"use strict";
 ; (function (o) {
     if (!o) return;
     else if (!Object.keys(o).length) return;
     o.developer = "quanwei.zheng.o"
     o.resize = function () {
         let pageWidth = window.innerWidth;
-        if(pageWidth > 750) {
+        if (pageWidth > 750) {
             pageWidth = 750
         }
-        if(pageWidth < 320) {
+        if (pageWidth < 320) {
             pageWidth = 320
         }
 
@@ -22,14 +16,31 @@
         document.documentElement.style.fontSize = size + "px";
     }
     // window.onresize = o.resize
-    o.resize();
+    // o.resize();
     window.addEventListener("resize", o.resize)
     o.DocChildren = {};
+    o.imt = function (js) {
+        let doc = document,
+            app_body = doc.body;
+        let spt = doc.createElement("script");
+        spt.type = "text/javascript";
+        spt.className = "filename";
+        spt.src = js[0];
+        app_body.appendChild(spt);
+        spt.onload = spt.onreadystatechange = function () {
+            if (!this.readyState || this.readyState == 'loaded' || this.readyState == 'complete') {
+                js.shift();
+                js.length ? imt(js) : null;
+                console.log('yes', js, this.readyState);
+            }
+            spt.onload = spt.onreadystatechange = null;
+        }
+    }
     //append single child elements
     o.Props = function (prop) {
         if (o.type(prop.$el) === "Array") {
             if (prop.Props) {
-                Object.keys(prop.Props).filter((v, i) => {
+                o.fors(prop.Props, function (v, i) {
                     if (o.type(prop.Props[v]) === "Array") {
                         prop.Props[v].filter((val, vi) => {
                             prop.$el[vi][v] = val
@@ -43,8 +54,7 @@
             }
         } else {
             if (prop.Props) {
-                console.log('bbbb');
-                Object.keys(prop.Props).filter((v, i) => {
+                o.fors(prop.Props, function(v, i) {
                     prop.$el[v] = prop.Props[v]
                 })
             }
@@ -54,20 +64,38 @@
         return document.querySelectorAll(str);
     }
     o.Events = function (eve) {
-        Object.keys(eve).filter((v, i) => {
+        o.fors(eve, function (v, i) {
             if (o.type(eve[v]) === "Object") {
                 o.Events(eve[v])
             }
             if (v === "class") {
-                Object.keys(eve[v]).filter((c, s) => {
-                    // console.log('cl',c, eve[v][c].e, eve[v][c].fn);
-                    Object.keys(o).filter((co, ci) => {
-                        if(!document.querySelector('.' + c)[co]) {
+                o.fors(eve[v], function (c, s) {
+                    //通过类名添加事件
+                    o.fors(o, function (co, ci) {
+                        if (!document.querySelector('.' + c)[co] && co === "getElements") {
                             document.querySelector('.' + c)[co] = o[co];
                         }
                     })
-                    Object.keys(eve[v][c]).filter((target, ti) => {
-                        document.querySelector('.' + c).addEventListener(target, eve[v][c][target]);
+                    o.fors(eve[v][c], function (target, ti) {
+
+                        if (o.type(eve[v][c][target]) !== "Array") {
+                            document.querySelector('.' + c).addEventListener(target, eve[v][c][target]);
+                        } else {
+                            // eve[v][c][target][0](1,2)
+                            let arr = [],
+                                doc = document;
+                            arr.push.apply(arr, document.querySelectorAll('.' + c))
+                            arr.filter((en, ei) => {
+                                eve[v][c][target][0]({
+                                    item: en,
+                                    index: ei,
+                                    target: target,
+                                    doc,
+                                    method: window.common,
+                                    lag: false
+                                })
+                            })
+                        }
                     })
                 })
             }
@@ -92,7 +120,8 @@
             }
         }
     }
-    o.IdName = function(Ids) {
+    o.IdName = function (Ids) {
+        // console.log("ids", Ids);
 
     }
     o.fors = function (o, fn) {
@@ -172,7 +201,7 @@
                 o.Css({ $el: v, css: e.css })
             })
         } else {
-            o.Css({ css: e.css && e.css(e) })
+            o.Css({ css: e.css && e.css(e, o.Css) })
         }
     }
     o.type = function (check) {
@@ -228,17 +257,6 @@
                 o.DocChildren[obj[i].localName] ?
                     o.DocChildren[obj[i].localName][o.DocChildren[obj[i].localName].length] = obj[i] :
                     null;
-            // if (obj[i].localName === "meta") {
-
-            // } else if (obj[i].localName === "link") {
-            //     !o.DocChildren[obj[i].localName] ?
-            //         o.DocChildren[obj[i].localName] = [obj[i]] :
-            //         o.DocChildren[obj[i].localName] ?
-            //             o.DocChildren[obj[i].localName][o.DocChildren[obj[i].localName].length] = obj[i] :
-            //             null;
-            // } else {
-            //     o.DocChildren[obj[i].localName] = obj[i]
-            // }
         }
     }
     o.Create(o.DOM)
@@ -246,109 +264,6 @@
     o.GetDoc(document.children)
 
     o.Events(o.events)
-
     console.log('###', [document], o.DOM);
-})({
-    DOM: {
-        nav: {
-            css: {
-                backgroundColor: '#333633',
-                height: '1rem',
-                lineHeight: '1rem',
-                position: 'fixed',
-                width: '100%',
-                top: '0px'
-            },
-            append_sort: 0,
-            children: [{
-                div: {
-                    css: {
-                        float: 'right',
-                        width: '10rem'
-                    },
-                    children: [{
-                        span: {
-                            css: {
-                                textDecoration: 'none',
-                                padding: '0px 0.5rem',
-                                margin: '0px 0.5rem',
-                                color: '#f4ecec',
-                                display: 'block',
-                                float: 'left',
-                                position: 'relative',
-                                fontSize: '0.4rem'
-                            },
-                            text: "list",
-                            class: "test",
-                            children: [{
-                                div: {
-                                    css: {
-                                        width: '2rem',
-                                        overflow: 'hidden',
-                                        display: 'none',
-                                        position: 'absolute',
-                                        top: '1.08rem',
-                                        left: '50%',
-                                        transform: 'translateX(-50%)',
-                                        background: 'white',
-                                        boxShadow: '0px 0px 0.08rem #ccc',
-                                        borderRadius: '5px',
-                                        cursor: 'pointer'
-                                    },
-                                    class: "child",
-                                    children: [{a: {
-                                        text: ['百度', '腾讯视频'],
-                                        mul: 2,
-                                        css: {
-                                            display: 'block',
-                                            height: '0.7rem',
-                                            textAlign: 'center',
-                                            lineHeight: '0.7rem',
-                                            textDecoration: 'none'
-                                        },
-                                        Props: {
-                                            href: ["https://www.baidu.com/", "https://v.qq.com/"]
-                                        }
-                                    }}]
-                                }
-                            }]
-                        }
-                    }]
-                }
-            }]
-        },
-
-        footer: {
-            append_sort: 0,
-            css: {
-                height: '1rem',
-                backgroundColor: 'red',
-                position: 'fixed',
-                bottom: '0px',
-                width: '100%'
-            },
-            children: [{
-                div: {
-
-                }
-            }]
-        }
-    },
-    events: {
-        class: {
-            test: {
-                click: function (e) {
-                    console.log(1111);
-                    let $el = this.getElements(".child")[0];
-                    // this.onselectstart = function() {
-                    //     return false;
-                    // }
-                    $el.style.display === "block" ? $el.style.display = "none" : $el.style.display = "block"; 
-                    console.log(1111111, e, [$el]);
-                    $el = null;
-                }
-            }
-        }
-    }
-})
+})(window._ || {})
 

@@ -2,26 +2,18 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-    <style>
-        textarea {
-            font-family: "华康圆体W5(P)";
-            width: 90%;
-            background:#3a3a3c;
-            padding: 5px;
-            font-size: 20px;
-            color: #e5dfdf;
-        }
-    </style>
+    <title>Title</title>
 </head>
 <body>
-    <textarea name="txt" id="txt" rows="30"></textarea>
-    <button>执行</button>
-    <script src="./js/test.js"></script>
-    <script>
-        
-    </script>
+<script>
+    let doc = document,
+        app_body = doc.body;
+    let spt = doc.createElement("script");
+    spt.type = "text/javascript";
+    spt.className = "filename";
+    spt.src = './import.js' + '?' + Math.random()*1000;
+    app_body.appendChild(spt);
+
+</script>
 </body>
 </html>
