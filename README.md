@@ -1,4 +1,4 @@
-##基于JS的Html-css-js
+﻿##基于JS的Html-css-js
 * JHC 对象
     > 在window中添加一个JHC属性对象  widnow.JHC,
     JHC对象中现在暂时只有两个属性
@@ -54,4 +54,3 @@
     > ```
     
     ###可把这个JHL下载到本地查看基本效果
-    ##### 
