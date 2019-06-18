@@ -1,7 +1,7 @@
 ﻿##基于JS的Html-css-js
-* JHC 对象
-    > 在window中添加一个JHC属性对象  widnow.JHC,
-    JHC对象中现在暂时只有两个属性
+* Web 对象
+    > 在window中添加一个Web属性对象  widnow.Web,
+    Web对象中现在暂时只有两个属性
     >> * 1 DOM //负责渲染DOM
     >> * 2 events //添加事件执行函数 现阶段只通过类名来添加事件
 

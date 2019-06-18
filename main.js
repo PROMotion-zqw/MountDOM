@@ -1,4 +1,4 @@
-window._ = {
+window.Web = {
     DOM: {
         nav: {
             css: {

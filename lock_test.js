@@ -266,5 +266,5 @@
 
     o.Events(o.events || {})
     console.log('###', [document], o.DOM);
-})(window._ || {})
+})(window.Web || {})
 
