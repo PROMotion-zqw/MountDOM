@@ -13,7 +13,6 @@ export default new Initial({
             },
             append_sort: 0,
             children: [
-                //Hippo+
                 {
                     a: {
                         css: {
