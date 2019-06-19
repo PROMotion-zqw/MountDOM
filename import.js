@@ -1,6 +1,6 @@
 
 let ver = `?${Math.random() * 1000}`;
-loading([
+export default loading([
     `./lock_test.js${ver}`,
     `./main.js${ver}`
     ])

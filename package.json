@@ -1,0 +1,24 @@
+{
+  "name": "JHL",
+  "version": "1.0.0",
+  "description": "* Web 对象\r     > 在window中添加一个Web属性对象  widnow.Web,\r     Web对象中现在暂时只有两个属性\r     >> * 1 DOM //负责渲染DOM\r     >> * 2 events //添加事件执行函数 现阶段只通过类名来添加事件",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "http-server"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PROMotion-zqw/JHL.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/PROMotion-zqw/JHL/issues"
+  },
+  "homepage": "https://github.com/PROMotion-zqw/JHL#readme",
+  "dependencies": {
+    "http-server": "^0.11.1"
+  }
+}

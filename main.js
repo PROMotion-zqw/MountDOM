@@ -1,5 +1,6 @@
-// window.Web = 
-new Initial({
+import {Initial} from './lock_test.js'
+
+export default new Initial({
     DOM: {
         nav: {
             css: {
@@ -29,19 +30,6 @@ new Initial({
                         text: "Hippo+",
                         Props: {
                             href: "/"
-                        }
-                    }
-                },
-                {
-                    div: {
-                        css: {
-                            width: "200px",
-                            height: '100%',
-                            backgroundColor: 'red',
-                        },
-                        mul: 3,
-                        Props: {
-                            title: ['1','2','3']
                         }
                     }
                 }

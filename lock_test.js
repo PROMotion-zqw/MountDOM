@@ -1,5 +1,5 @@
 "use strict";
-function Initial(o) {
+export function Initial(o) {
     let that = this;
     this.Create.call(that, o.DOM)
     this.AppendDoc.call(that, o.DOM)
@@ -242,3 +242,4 @@ Initial.prototype = {
         })
     }
 }
+
