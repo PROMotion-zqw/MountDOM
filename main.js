@@ -1,4 +1,5 @@
-window.Web = {
+// window.Web = 
+new Initial({
     DOM: {
         nav: {
             css: {
@@ -22,7 +23,8 @@ window.Web = {
                             fontSize: '16px',
                             width: '70px',
                             textAlign: 'center',
-                            fontWeight: '500'
+                            fontWeight: '500',
+                            margin: '0px 10px'
                         },
                         text: "Hippo+",
                         Props: {
@@ -30,6 +32,19 @@ window.Web = {
                         }
                     }
                 },
+                {
+                    div: {
+                        css: {
+                            width: "200px",
+                            height: '100%',
+                            backgroundColor: 'red',
+                        },
+                        mul: 3,
+                        Props: {
+                            title: ['1','2','3']
+                        }
+                    }
+                }
             ],
             class: 'navs'
         },
@@ -68,4 +83,4 @@ window.Web = {
             }
         }
     }
-}
+})
