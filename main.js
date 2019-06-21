@@ -1,18 +1,20 @@
-import {Initial} from './lock_test.js'
-
+import {Initial} from './src/uitls/lock_test.js'
+import methods from './src/uitls/import.js'
 export default new Initial({
     DOM: {
         nav: {
             css: {
-                backgroundColor: '#202932',
+                backgroundColor: '#343a40',
                 height: '56px',
                 lineHeight: '56px',
                 position: 'fixed',
                 width: '100%',
-                top: '0px'
+                top: '0px',
+                zIndex: 999
             },
             append_sort: 0,
             children: [
+                //Hippo+
                 {
                     a: {
                         css: {
@@ -23,23 +25,143 @@ export default new Initial({
                             fontSize: '16px',
                             width: '70px',
                             textAlign: 'center',
-                            fontWeight: '500',
-                            margin: '0px 10px'
+                            fontWeight: '500'
                         },
                         text: "Hippo+",
                         Props: {
                             href: "/"
                         }
                     }
+                },
+                //list
+                {
+                    div: {
+                        css: {
+                            float: 'right',
+                        },
+                        children: [
+                            {
+                                a: {
+                                    css: methods.rightItem,
+                                    text: 'Service',
+                                    Props: {
+                                        href: "/service"
+                                    },
+                                    class: "light"
+                                }
+                            },
+                            {
+                                a: {
+                                    css: methods.rightItem,
+                                    text: 'Logging',
+                                    Props: {
+                                        href: "/logging"
+                                    },
+                                    class: "light"
+                                }
+                            },
+                            {
+                                span: {
+                                    css: methods.rightItem,
+                                    text: "CodeStar",
+                                    class: "test light",
+                                    children: [{
+                                        div: {
+                                            css: methods.dropDownBox,
+                                            class: "child",
+                                            children: [{
+                                                a: {
+                                                    text: ['Code', '提测管理'],
+                                                    mul: 2,
+                                                    css: methods.dropDownItem,
+                                                    Props: {
+                                                        href: ["/codestar/#/ci", "/codestar/#/testlist"]
+                                                    },
+                                                    class: 'hov'
+                                                }
+                                            }]
+                                        }
+                                    }]
+                                }
+                            },
+                            {
+                                span: {
+                                    css: methods.rightItem,
+                                    text: "Database",
+                                    class: "test light",
+                                    children: [{
+                                        div: {
+                                            css: methods.dropDownBox,
+                                            class: "child",
+                                            children: [{
+                                                a: {
+                                                    text: ['DB', 'DB堡垒机'],
+                                                    mul: 2,
+                                                    css: methods.dropDownItem,
+                                                    Props: {
+                                                        href: ["/database/list", "/database/dbtool"]
+                                                    },
+                                                    class: 'hov'
+                                                }
+                                            }]
+                                        }
+                                    }]
+                                }
+                            },
+                            {
+                                a: {
+                                    css: methods.rightItem,
+                                    text: 'Deploy',
+                                    Props: {
+                                        href: "/deploy"
+                                    },
+                                    class: 'light'
+                                }
+                            },
+                            {
+                                a: {
+                                    css: methods.rightItem,
+                                    text: 'My Request',
+                                    Props: {
+                                        href: "/request/"
+                                    },
+                                    class: 'light'
+                                }
+                            },
+                            {
+                                span: {
+                                    css: methods.rightItem,
+                                    text: "Welcome " + localStorage.getItem("USERNAME"),
+                                    class: "test light",
+                                    children: [{
+                                        div: {
+                                            css: methods.dropDownBox,
+                                            class: "child",
+                                            children: [{
+                                                a: {
+                                                    text: methods.getUser()[0],
+                                                    mul: methods.getUser()[0].length,
+                                                    css: methods.dropDownItem,
+                                                    Props: {
+                                                        href: methods.getUser()[1]
+                                                    },
+                                                    class: 'hov'
+                                                }
+                                            }]
+                                        }
+                                    }]
+                                }
+                            },
+                        ]
+                    }
                 }
-            ],
-            class: 'navs'
+            ]
         },
         footer: {
             append_sort: 0,
             css: {
-                height: '50px',
-                backgroundColor: '#202932',
+                height: '60px',
+                backgroundColor: '#f5f5f5',
                 position: 'fixed',
                 bottom: '0px',
                 width: '100%',
@@ -49,22 +171,84 @@ export default new Initial({
             children: [{
                 div: {
                     css: {
-                        // width: '30%',
                         display: 'inline-block',
-                        height: '50px',
-                        background: 'white',
-                    }
+                        height: '100%',
+                    },
+                    children: [
+                        {
+                            a: {
+                                css: {
+                                    fontSize: '15px',
+                                    display: 'block',
+                                    height: '50px',
+                                    color: '#646bc6',
+                                    float: 'left',
+                                    position: 'relative',
+                                    padding: '0px 10px',
+                                    textDecoration: 'none',
+                                    textAlign: 'center',
+                                    lineHeight: '50px'
+                                },
+                                mul: 4,
+                                text: [' do-devops@nio.com', '24*7', 'About', 'Release Note'],
+                                Props: {
+                                    href: ["mailto:do-devops@nio.com", "/schedule", "http://devops.nevint.com", "http://devops.nevint.com/archives/118"]
+                                },
+                                class: ["iconfont icon-youjian2", "iconfont icon-dianhua1", "iconfont", "iconfont"]
+                            }
+                        }
+                    ]
                 }
             }]
         }
     },
     events: {
         class: {
-            navs: {
+            test: {
                 click: [function (o) {
-                    //考虑到多个元素同时添加事件 的不友好 请暂时使用add方法来执行事件 参数 (元素, 回调函数)
-                    o.add(o.item, () => {
-                        alert("nav标签被点击!")
+                    let $el = o.item.children[0];
+                    o.item.onselectstart = function () {
+                        return false;
+                    }
+                    o.add(o.item, function (e) {
+                        e.stopPropagation();
+                        methods.Ident(".child", {display: 'none'}, o.index)
+                        $el.style.display === "block" ? $el.style.display = "none" : $el.style.display = "block";
+                        if (o.index == 2) {
+                            methods.Ident(".child")[2].style.width !== "180px" ? methods.Ident(".child")[2].style.width = "180px" : null;
+                        }
+                    })
+                    o.add(document, function () {
+                        methods.Ident(".child", {display: 'none'})
+                    })
+                }]
+            },
+            hov: {
+                mouseover: [function (o) {
+                    o.item.addEventListener(o.target, function (e) {
+                        e.stopPropagation()
+                        this.style.backgroundColor = "#f6f0f0"
+                        o.item = null;
+                    })
+                }],
+                mouseout: [function (o) {
+                    o.item.addEventListener(o.target, function () {
+                        this.style.backgroundColor = ""
+                        o.item = null
+                    })
+                }]
+            },
+            light: {
+                mouseover: [function (o) {
+                    o.item.addEventListener(o.target, function () {
+                        this.style.backgroundColor = "#5d5c5c"
+                        o.item = null;
+                    })
+                }],
+                mouseout: [function (o) {
+                    o.item.addEventListener(o.target, function () {
+                        this.style.backgroundColor = ""
+                        o.item = null
                     })
                 }]
             }

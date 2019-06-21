@@ -9,7 +9,7 @@ export function Initial(o) {
 
 Initial.prototype = {
     developer: 'quanwei.zheng.o',
-    imt: function (js) {
+    loadJs: function (js) {
         let doc = document,
             app_body = doc.body;
         let spt = doc.createElement("script");
@@ -197,18 +197,6 @@ Initial.prototype = {
             }
         })
     },
-    GetDoc: function (obj) {
-        for (var i = 0; i < obj.length; i++) {
-            if (obj[i].children) {
-                this.GetDoc(obj[i].children);
-            }
-            !this.DocChildren[obj[i].localName] ?
-                this.DocChildren[obj[i].localName] = [obj[i]] :
-                this.DocChildren[obj[i].localName] ?
-                    this.DocChildren[obj[i].localName][this.DocChildren[obj[i].localName].length] = obj[i] :
-                    null;
-        }
-    },
     Events: function (eve) {
         this.fors(eve, (v, i) => {
             if (this.type(eve[v]) === "Object") {
@@ -231,7 +219,7 @@ Initial.prototype = {
                                     target: target,
                                     doc,
                                     add: function (o, fn) {
-                                        en.addEventListener(target, fn)
+                                        o.addEventListener(target, fn)
                                     }
                                 })
                             })
