@@ -26,7 +26,7 @@ Initial.prototype = {
         }
     },
     //append single child elements
-    Props: function (prop) {        
+    Props: function (prop) {
         if (this.type(prop.$el) === "Array") {
             if (prop.Props) {
                 this.fors(prop.Props, (v, i) => {
@@ -158,44 +158,47 @@ Initial.prototype = {
         return Object.prototype.toString.call(check).split(" ")[1].slice(0, -1);
     },
     Create: function (e, parent, append) {
-        this.fors(e, (keys, ki) => {
-            if (this.type(e[keys].mul) != "Undefined") {
-                for (var i = 0; i < e[keys].mul; i++) {
-                    !e[keys].$el ? e[keys].$el = [document.createElement(keys)] : e[keys].$el[i] = document.createElement(keys);
-                    if (e[keys].text) {
-                        e[keys].$el[i].innerText = e[keys].text[i] ? e[keys].text[i] : "";
+        if (e) {
+            this.fors(e, (keys, ki) => {
+                if (this.type(e[keys].mul) != "Undefined") {
+                    for (var i = 0; i < e[keys].mul; i++) {
+                        !e[keys].$el ? e[keys].$el = [document.createElement(keys)] : e[keys].$el[i] = document.createElement(keys);
+                        if (e[keys].text) {
+                            e[keys].$el[i].innerText = e[keys].text[i] ? e[keys].text[i] : "";
+                        }
+                        this.Css(e[keys])
                     }
-                    this.Css(e[keys])
+                } else {
+                    e[keys].$el = document.createElement(keys);
+                    if (e[keys].text) {
+                        e[keys].$el.innerText = e[keys].text ? e[keys].text : "";
+                    }
+                    this.Css(e[keys]);
                 }
-            } else {
-                e[keys].$el = document.createElement(keys);
-                if (e[keys].text) {
-                    e[keys].$el.innerText = e[keys].text ? e[keys].text : "";
-                }
-                this.Css(e[keys]);
-            }
 
-            this.Props(e[keys])
-            this.ClassName(e[keys]);
-            this.IdName(e[keys]);
+                this.Props(e[keys])
+                this.ClassName(e[keys]);
+                this.IdName(e[keys]);
 
-            if (e[keys].children && e[keys].$el) {
-                e[keys].flag = true;
-                if (this.type(e[keys].children) === "Object") {
-                    this.Create(e[keys].children, e[keys], 'children');
-                    this.AppendDoc({ inner: e[keys].children, parent: e[keys] })
-                } else if (this.type(e[keys].children) === "Array") {
-                    // console.log("它是数组!", e[keys].children);
-                    e[keys].children.filter((ch, ci) => {
-                        this.Create(ch, e[keys], 'children');
-                    })
-                    e[keys].children.filter((ch, ci) => {
-                        // this.Create(ch, e[keys], 'children');
-                        this.AppendDoc({ inner: ch, parent: e[keys] })
-                    })
+                if (e[keys].children && e[keys].$el) {
+                    e[keys].flag = true;
+                    if (this.type(e[keys].children) === "Object") {
+                        this.Create(e[keys].children, e[keys], 'children');
+                        this.AppendDoc({ inner: e[keys].children, parent: e[keys] })
+                    } else if (this.type(e[keys].children) === "Array") {
+                        // console.log("它是数组!", e[keys].children);
+                        e[keys].children.filter((ch, ci) => {
+                            this.Create(ch, e[keys], 'children');
+                        })
+                        e[keys].children.filter((ch, ci) => {
+                            // this.Create(ch, e[keys], 'children');
+                            this.AppendDoc({ inner: ch, parent: e[keys] })
+                        })
+                    }
                 }
-            }
-        })
+            })
+        }else {
+        }
     },
     Events: function (eve) {
         this.fors(eve, (v, i) => {
@@ -203,7 +206,7 @@ Initial.prototype = {
                 this.Events(eve[v])
             }
             if (v === "class") {
-                this.fors(eve[v],(c, s) => {
+                this.fors(eve[v], (c, s) => {
                     this.fors(eve[v][c], (target, ti) => {
                         if (this.type(eve[v][c][target]) !== "Array") {
                             document.querySelector('.' + c).addEventListener(target, eve[v][c][target]);
@@ -226,6 +229,20 @@ Initial.prototype = {
                         }
                     })
                 })
+            }
+        })
+    },
+    watch: function (o, keys, callback) {
+        var old = o[keys];
+        Object.defineProperty(o, keys, {
+            configurable: true,
+            enumerable: true,
+            set: function (val) {
+                var v = old; old = val;
+                callback(val, v)
+            },
+            get: function () {
+                return old;
             }
         })
     }

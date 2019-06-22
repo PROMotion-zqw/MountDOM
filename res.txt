@@ -1,0 +1,56 @@
+Express:
+
+res 参数中有
+req.secret= String //生成密钥                                   对密钥进行签名
+res.cookie(健， 值， {path: 生成cookie的路径， maxAge: 过期时间， signed: true})
+获取cookie
+req.cookies //获取未签名的cookie
+req.signedCookies //获取签名的cookie
+res.clearCookie(键) //删除cookie
+
+cookie 的空间非常小 大小4k
+
+cookie-parser  //中间件 用来获取前端的cookie 和 对签名过的cookie进行解析得到初始值
+cookie-encrypter //对cookie进行加密操作
+
+实列
+app.use(cookieParser("wegsdfg"))
+app.use('/', (req, res) => {
+    req.secret = "wegsdfg";
+    res.cookie('user', 'quanwei',{signed: true})
+    console.log(req.cookies);
+    console.log(req.signedCookies)
+})
+
+session-parser //中间件
+session-parser({
+    keys: ['aaa','sdf','dfgdf'] //必须有这个keys
+})
+keys中的多个密钥 可增加破解难度 安全性高
+并且会循环的使用数组中的密钥 这样每次请求都会用不同的密钥
+
+实列
+app.use(cookieSession({
+    name: 'sis', //session_id name
+    keys: ['sd', 'safdgf', 'rty'],
+    maxAge: 4*3600*1000 //过期时间
+})) //解析cookie之后才可以读取session
+
+app.use('/', (req, res) => {
+    console.log('Session', req.session);
+    res.send('Index')
+})
+
+multer  //中间件 处理post复杂数据文件等
+multer().any()  /处理上传的任何文件
+multer().single(string)  //处理单个文件
+
+实列
+const multer = require('multer')({dest: 上传文件最终的存储目录});
+app.use(multer.any())
+app.post("/", (req, res) => {
+    console.log('post',req.files);
+})
+
+fs 系统模块
+fs.rename(oldPath, newPath, Function);

@@ -1,11 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
+
 <body>
-<script type="module" src="./main.js"></script>
-</script>
+    <!-- <script type="module" src="./main.js"></script> -->
+    <script>
+        let doc = document,
+            app_body = doc.body;
+        let spt = doc.createElement("script");
+        spt.type = "module";
+        spt.src = './main.js?'+Math.random()*1000;
+        app_body.appendChild(spt);
+    </script>
+    </script>
 </body>
+
 </html>
