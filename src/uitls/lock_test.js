@@ -2,8 +2,8 @@
 export function Initial(o) {
     let that = this;
     this.Create.call(that, o.DOM)
-    this.AppendDoc.call(that, o.DOM)
-    this.Events.call(that, o.events || {})
+    // this.AppendDoc.call(that, o.DOM)
+    // this.Events.call(that, o.events || {})
     console.log('###', [document], o.DOM);
 }
 
@@ -72,7 +72,11 @@ Initial.prototype = {
         }
     },
     IdName: function (Ids) {
-
+        if (Ids.$el) {
+            if (Ids.id) {
+                Ids.$el.id = Ids.id;
+            }
+        }
     },
     fors: function (o, fn) {
         Object.keys(o).filter((k, ki) => {
@@ -96,31 +100,36 @@ Initial.prototype = {
     },
     AppendDoc: function (opt) {
         //on DOM Object append child elements of body
-        if (!opt.parent) {
-            this.fors(opt, (dom, di) => {
-                if (opt[dom].children) {
-                    opt[dom].children.filter((ids, id) => {
-                        this.fors(ids, (els, ls) => {
-                            if (ids[els].$el) {
-                                if (this.type(ids[els].$el) === "Array") {
-                                    ids[els].$el.filter((v, i) => {
-                                        opt[dom].$el.innerHTML += v.outerHTML
-                                    })
-                                } else {
-                                    opt[dom].$el.innerHTML += ids[els].$el.outerHTML
-                                }
-                            } else {
-                                console.log("### nav is not children", opt[dom].children[child]);
-                            }
-                        })
-                    })
-                }
-                opt[dom].$el.children.length != 0 ? document.body.appendChild(opt[dom].$el) : console.log(`### ${dom} ChildrenNode is empty or 'children' in item is empty`);
-            })
-            document.body.style.margin = "0px"
-            document.documentElement.style.margin = "0px"
-            return;
-        }
+        // if (!opt.parent) {
+        //     this.fors(opt, (dom, di) => {
+        //         if (opt[dom].children.length) {
+        //             opt[dom].children.filter((ids, id) => {
+        //                 this.fors(ids, (els, ls) => {
+        //                     if (ids[els].$el) {
+        //                         if (this.type(ids[els].$el) === "Array") {
+        //                             ids[els].$el.filter((v, i) => {
+        //                                 opt[dom].$el.innerHTML += v.outerHTML
+        //                             })
+        //                         } else {
+        //                             opt[dom].$el.innerHTML += ids[els].$el.outerHTML
+        //                         }
+        //                     } else {
+        //                         console.log("### nav is not children", opt[dom].children[child]);
+        //                     }
+        //                 })
+        //             })
+        //         }else {
+        //             setTimeout(() => {
+        //                 this.AppendDoc(opt)
+        //             }, 1)
+        //         }
+        //         // opt[dom].$el.children.length != 0 ? document.body.appendChild(opt[dom].$el) : console.log(`### ${dom} ChildrenNode is empty or 'children' in item is empty`);
+        //         opt[dom].$el.children.length != 0 ? document.body.appendChild(opt[dom].$el) : console.log(`### ${dom} ChildrenNode is empty or 'children' in item is empty`);
+        //     })
+        //     document.body.style.margin = "0px"
+        //     document.documentElement.style.margin = "0px"
+        //     return;
+        // }
         //init append all child elements
         if (this.type(opt.parent.$el) === "Array" && this.type(opt.inner) === "Object") {
             if (opt.parent.pend != 0 && opt.parent.children && opt.parent.append_sort != 0) {
@@ -157,7 +166,7 @@ Initial.prototype = {
     type: function (check) {
         return Object.prototype.toString.call(check).split(" ")[1].slice(0, -1);
     },
-    Create: function (e, parent, append) {
+    Create: function (e, fn) {
         if (e) {
             this.fors(e, (keys, ki) => {
                 if (this.type(e[keys].mul) != "Undefined") {
@@ -179,25 +188,47 @@ Initial.prototype = {
                 this.Props(e[keys])
                 this.ClassName(e[keys]);
                 this.IdName(e[keys]);
+                if (!e[keys].children) {
+                    console.log('e', e[keys], e);
+                    fn && fn()
+                } else {
+                    // console.log('$el',keys, this.type(e[keys].$el));
+                    if (e[keys].$el && this.type(e[keys].$el) !== "Array") {
+                        if (this.type(e[keys].children) === "Array") {
+                            console.log('gh', e[keys].children);
+                            e[keys].children.filter((ch, ci) => {
+                                this.Create(ch, fn);
+                            })
+                        }
+                    } else if (e[keys].$el && this.type(e[keys].$el) === "Array") {
+                        if (e[keys].$el.length === e[keys].mul) {
+                            if (this.type(e[keys].children) === "Array") {
+                                e[keys].children.filter((ch, ci) => {
+                                    this.Create(ch, fn);
+                                })
+                            }
+                        }
 
-                if (e[keys].children && e[keys].$el) {
-                    e[keys].flag = true;
-                    if (this.type(e[keys].children) === "Object") {
-                        this.Create(e[keys].children, e[keys], 'children');
-                        this.AppendDoc({ inner: e[keys].children, parent: e[keys] })
-                    } else if (this.type(e[keys].children) === "Array") {
-                        // console.log("它是数组!", e[keys].children);
-                        e[keys].children.filter((ch, ci) => {
-                            this.Create(ch, e[keys], 'children');
-                        })
-                        e[keys].children.filter((ch, ci) => {
-                            // this.Create(ch, e[keys], 'children');
-                            this.AppendDoc({ inner: ch, parent: e[keys] })
-                        })
                     }
                 }
+                // if (e[keys].children.length && e[keys].$el) {
+                //     e[keys].flag = true;
+                //     if (this.type(e[keys].children) === "Object") {
+                //         this.Create(e[keys].children, e[keys], 'children');
+                //         this.AppendDoc({ inner: e[keys].children, parent: e[keys] })
+                //     } else if (this.type(e[keys].children) === "Array") {
+                //         // console.log("它是数组!", e[keys].children);
+                //         e[keys].children.filter((ch, ci) => {
+                //             this.Create(ch, e[keys], 'children');
+                //         })
+                //         e[keys].children.filter((ch, ci) => {
+                //             // this.Create(ch, e[keys], 'children');
+                //             this.AppendDoc({ inner: ch, parent: e[keys] })
+                //         })
+                //     }
+                // }
             })
-        }else {
+        } else {
         }
     },
     Events: function (eve) {

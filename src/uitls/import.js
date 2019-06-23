@@ -1,6 +1,6 @@
 let ver = `?${Math.random() * 1000}`;
 
-function loadJs(url, load) {
+function loadJs(url, load, end) {
     let doc = document,
         app_body = doc.body;
     let spt = doc.createElement("script");
@@ -11,8 +11,7 @@ function loadJs(url, load) {
     spt.onload = spt.onreadystatechange = function () {
         if (!this.readyState || this.readyState == 'loaded' || this.readyState == 'complete') {
             url.shift();
-            url.length ? load(url) : null;
-            // console.log('yes', js, this.readyState);
+            url.length ? load(url) : end && end(url);
         }
         spt.onerror = function (e) {
             console.log('ERR', e);
@@ -71,7 +70,7 @@ function styleOnload(node, callback) {
     }
 }
 
-function loadCss(url, load) {
+function loadCss(url, load, end) {
     let node = document.createElement("link");
     node.setAttribute('rel', 'stylesheet');
     node.setAttribute('type', 'text/css');
@@ -79,15 +78,15 @@ function loadCss(url, load) {
     document.head.appendChild(node);
     styleOnload(node, () => {
         url.shift();
-        url.length ? load(url) : null;
+        url.length ? load(url) : end && end(url);
     })
 }
 
-function loading(url) {
+function loading(url, end) {
     if (/.js/.test(url[0])) {
-        loadJs(url, loading)
+        loadJs(url, loading, end)
     } else if (/.css/.test(url[0])) {
-        loadCss(url, loading)
+        loadCss(url, loading, end)
     }
 }
 export default {
@@ -158,5 +157,5 @@ export default {
             throw "Loss of User Information Table"
         }
     },
-    loading
+    loading,
 }

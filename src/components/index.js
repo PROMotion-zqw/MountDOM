@@ -4,6 +4,14 @@ export default {
             backgroundColor: 'red',
             color: 'white'
         },
-        text: 'Index page'
+        text: 'Index page',
+        mul: 3,
+        children: [
+            {
+                div: {
+                    text: 'One child',
+                }
+            }
+        ]
     }
 }

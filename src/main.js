@@ -1,4 +1,4 @@
-import {Initial} from './uitls/lock_test.js';
+import { Initial } from './uitls/lock_test.js';
 import router from './uitls/router.js'
 import methods from './uitls/import.js'
 let o = {
@@ -14,32 +14,29 @@ let o = {
                 top: '0px',
             },
             append_sort: 0,
-            children: [
-                {
-                    h2: {
-                        text: 'div'
-                    }
-                }
-            ]
+            children: []
         }
     },
 }
+// methods.loading(['./assets/index.css'])
 const int = new Initial(o)
-console.log('main', router.components);
+
 //初始化 路由导航
-if(router.components) {
+if (router.components) {
     o.DOM.div.children[0] = router.components
-    int.Create(o.DOM);
-    int.AppendDoc(o.DOM)
+    int.Create(o.DOM, function() {
+        console.log('DOM', o.DOM);
+        
+    });
+    // int.AppendDoc(o.DOM)
 }
 //监听components的变化
 int.watch(router, 'components', (v) => {
     console.log('---components', v, int);
+    // document.body.innerHTML = ""
     o.DOM.div.children[0] = v
-    ;(function(d) {
-        int.Create(d.DOM);
-        int.AppendDoc(d.DOM)
-    })(o)
+    int.Create(o.DOM);
+    // int.AppendDoc(o.DOM)
 })
 export default int
 

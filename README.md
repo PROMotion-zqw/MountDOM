@@ -1,40 +1,45 @@
-﻿##基于JS的Html-css-js
+### 修改中 暂不可用
+
+﻿## 基于JS的Html-css-js
+
 * Initial 对象
-    > 在window中添加一个Initial属性对象  widnow.Initial,
-    Initial对象中现在暂时只有两个属性
-    >> * 1 DOM //负责渲染DOM
-    >> * 2 events //添加事件执行函数 现阶段只通过类名来添加事件
+    > Initial  构造函数
+    > Initial对象中现在暂时只有两个属性
+    >
+    > > * 1 DOM //负责渲染DOM
+> > * 2 events //添加事件执行函数 现阶段只通过类名来添加事件
 
 * DOM 对象
     > * DOM对象的第一层属性含义
-    >> [键] 标签名 => [值] 包括 css, text, Props, class, children, append_sort
-    >> 第一层属性的每个对象中 append_sort 必须为零 [阻止元素被提前渲染到页面中]
-    >> ```
-    >> 列
-    >> nav: {
-    >>  css: {},
-    >>  append_sort: 0,
-    >>  text: "我是nav标签", //标签文本
-    >>  Props: {
-    >>      title: '标签的title属性'
-    >>  },
-    >>  class: "",
-    >>  children: [
-    >>      {div: {
-    >>          class: "",
-    >>          text: "",
-    >>          Props: {},
-    >>          mul: [Number],
-    >>          css: {}
-    >>          }
-    >>      }  //元素对象
-    >>  ] //数组 子元素集合
-    >> }
-    >> ```
-    >>
-    >>* children 数组的含义
-        >>> 数组中的每一个对象都是一个元素 对象中也包含 css, text, Props, class
-        >>> 对象中也可以再嵌套一个children数组 是当前元素的子元素
+    > > [键] 标签名 => [值] 包括 css, text, Props, class, children, append_sort
+    > > 第一层属性的每个对象中 append_sort 必须为零 [阻止元素被提前渲染到页面中]
+    > >
+    > > ```javascript
+    > > 列
+    > > nav: {
+    > > css: {},
+    > > append_sort: 0,
+    > > text: "我是nav标签", //标签文本
+    > > Props: {
+    > >   title: '标签的title属性'
+    > > },
+    > > class: "",
+    > > children: [
+    > >   {div: {
+    > >       class: "",
+    > >       text: "",
+    > >       Props: {},
+    > >       mul: [Number],
+    > >       css: {}
+    > >       }
+    > >   }  //元素对象
+    > > ] //数组 子元素集合
+    > > }
+    > > ```
+    > >
+    > > * children 数组的含义
+    > > > 数组中的每一个对象都是一个元素 对象中也包含 css, text, Props, class
+> > > 对象中也可以再嵌套一个children数组 是当前元素的子元素
 
 * events对象的含义
     > 通过类名添加事件
@@ -53,11 +58,17 @@
     > }
     > ```
     
-###可把这个JHL下载到本地查看基本效果
-#### 命令行运行 npm start 查看效果
-###最近跟新： 2019/6/23
-    > 搭配nodeJS  手动封装最初router  实现单页面应用
-    > 路由的添加 请看 router.js
-    > 支持以.js文件组件化 每个组件 都是 children 数组中的一个对象
-    > 数组中的每一个对象都是一个元素 对象中也包含 css, text, Props, class
-    > 对象中也可以再嵌套一个children数组 是当前元素的子元素
+
+### 命令行运行 npm start 查看效果
+
+> 搭配nodeJS  手动封装最初router  实现单页面应用
+>
+> 路由的添加 请看 router.js
+>
+> 路由的添加 请看 router.js
+>
+> 支持以.js文件组件化 每个组件 都是 children 数组中的一个对象
+>
+> 数组中的每一个对象都是一个元素 对象中也包含 css, text, Props, class
+>
+> 对象中也可以再嵌套一个children数组 是当前元素的子元

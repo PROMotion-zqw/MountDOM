@@ -1,10 +1,9 @@
-// import {Initial} from './lock_test'
 import index from '../components/index.js'
 import login from '../components/login.js'
 import page from '../components/page.js'
 function Router(o) {
-    this.enter(o)
     this.before(o);
+    this.enter(o)
 }
 
 Router.prototype = {
@@ -36,9 +35,7 @@ Router.prototype = {
 
 export default new Router(
     [
-        { path: '/index', components: index },
         { path: '/', components: index },
-        { path: '/index', components: index },
         { path: '/login', components: login },
         { path: '/page', components: page },
     ]
