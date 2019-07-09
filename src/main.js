@@ -35,7 +35,10 @@ int.watch(router, 'components', (v) => {
     console.log('---components', v, int);
     // document.body.innerHTML = ""
     o.DOM.div.children[0] = v
-    int.Create(o.DOM);
+    int.Create(o.DOM, function() {
+        console.log('DOM_change', o.DOM);
+        
+    });
     // int.AppendDoc(o.DOM)
 })
 export default int

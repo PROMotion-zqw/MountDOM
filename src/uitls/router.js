@@ -16,7 +16,6 @@ Router.prototype = {
                     return location.hash.slice(1) === v.path
                 })
                 current.length ? this.components = current[0].components : this.components = { h2: { text: '没有此页面!', css: { color: 'white' } } }
-                console.log('components', current);
             }
         })
     },
