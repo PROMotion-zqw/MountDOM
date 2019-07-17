@@ -2,14 +2,16 @@ export default {
     h2: {
         css: {
             backgroundColor: 'red',
-            color: 'white'
+            color: '#fff'
         },
         text: 'Index page',
-        mul: 3,
         children: [
             {
-                div: {
-                    text: 'One child',
+                a: {
+                    Props: {
+                        href: "/#/page",
+                    },
+                    text: "page"
                 }
             }
         ]

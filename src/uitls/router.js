@@ -9,6 +9,7 @@ function Router(o) {
 Router.prototype = {
     before: function (o) {
         window.addEventListener('hashchange', (e) => {
+            document.body.removeChild(document.body.children[2])
             if (!location.hash) {
                 location.hash = "#/"
             } else {

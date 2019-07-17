@@ -98,56 +98,30 @@ Initial.prototype = {
             })
         })
     },
-    AppendDoc: function (opt) {
+    AppendDoc: function (opt, optLine) {
         //on DOM Object append child elements of body
-        // if (!opt.parent) {
-        //     this.fors(opt, (dom, di) => {
-        //         if (opt[dom].children.length) {
-        //             opt[dom].children.filter((ids, id) => {
-        //                 this.fors(ids, (els, ls) => {
-        //                     if (ids[els].$el) {
-        //                         if (this.type(ids[els].$el) === "Array") {
-        //                             ids[els].$el.filter((v, i) => {
-        //                                 opt[dom].$el.innerHTML += v.outerHTML
-        //                             })
-        //                         } else {
-        //                             opt[dom].$el.innerHTML += ids[els].$el.outerHTML
-        //                         }
-        //                     } else {
-        //                         console.log("### nav is not children", opt[dom].children[child]);
-        //                     }
-        //                 })
-        //             })
-        //         }else {
-        //             setTimeout(() => {
-        //                 this.AppendDoc(opt)
-        //             }, 1)
-        //         }
-        //         // opt[dom].$el.children.length != 0 ? document.body.appendChild(opt[dom].$el) : console.log(`### ${dom} ChildrenNode is empty or 'children' in item is empty`);
-        //         opt[dom].$el.children.length != 0 ? document.body.appendChild(opt[dom].$el) : console.log(`### ${dom} ChildrenNode is empty or 'children' in item is empty`);
-        //     })
-        //     document.body.style.margin = "0px"
-        //     document.documentElement.style.margin = "0px"
-        //     return;
-        // }
-        //init append all child elements
-        if (this.type(opt.parent.$el) === "Array" && this.type(opt.inner) === "Object") {
-            if (opt.parent.pend != 0 && opt.parent.children && opt.parent.append_sort != 0) {
-                opt.parent.$el.filter((p, pv) => {
-                    this.ChildItem(opt, p)
-                })
-                let temp = opt.parent.$el.every((v, i) => {
-                    return v.children.length !== 0;
-                })
-                temp ? opt.parent.pend = 0 : null;
-            }
-        } else if (this.type(opt.parent.$el) !== "Array" && this.type(opt.inner) === "Object") {
-            if (opt.parent.pend != 0 && opt.parent.children && opt.parent.append_sort != 0) {
-                this.ChildItem(opt)
-                let temp = null;
-                opt.parent.$el.children.length !== 0 ? temp = true : temp = false;
-                temp ? opt.parent.pend = 0 : null;
-            }
+        if (!opt.parent) {
+            this.fors(opt, (dom, di) => {
+                if (opt[dom].children && opt[dom].children.length) {
+                    let oLineString = Object.keys(opt)[0]
+                    opt[dom].children.filter((DocChild, DocIndex) => {
+                        //有children 的话就递归调用AppendDoc函数 并且把 父级的对象传给第二个参数
+                        //以便之后将子集追加到对应的父节点中
+                        this.AppendDoc(DocChild, opt[oLineString])
+                    })
+                }
+                if (optLine) {
+                    //在这里进行子节点追加
+                    let outer = Object.keys(opt)[0];
+                    optLine.$el.innerHTML += opt[outer].$el.outerHTML
+                } else {
+                    //最后没有了 父节点说明已经到了根节点
+                    //将根节点追加到body中
+                    let bodyDocString = Object.keys(opt)[0];
+                    document.body.appendChild(opt[bodyDocString].$el)
+                }
+            })
+            return;
         }
     },
     Css: function (e) {
@@ -189,13 +163,12 @@ Initial.prototype = {
                 this.ClassName(e[keys]);
                 this.IdName(e[keys]);
                 if (!e[keys].children) {
-                    console.log('e', e[keys], e);
                     fn && fn()
                 } else {
                     // console.log('$el',keys, this.type(e[keys].$el));
                     if (e[keys].$el && this.type(e[keys].$el) !== "Array") {
                         if (this.type(e[keys].children) === "Array") {
-                            console.log('gh', e[keys].children);
+                            // console.log('gh', e[keys].children);
                             e[keys].children.filter((ch, ci) => {
                                 this.Create(ch, fn);
                             })
@@ -211,22 +184,6 @@ Initial.prototype = {
 
                     }
                 }
-                // if (e[keys].children.length && e[keys].$el) {
-                //     e[keys].flag = true;
-                //     if (this.type(e[keys].children) === "Object") {
-                //         this.Create(e[keys].children, e[keys], 'children');
-                //         this.AppendDoc({ inner: e[keys].children, parent: e[keys] })
-                //     } else if (this.type(e[keys].children) === "Array") {
-                //         // console.log("它是数组!", e[keys].children);
-                //         e[keys].children.filter((ch, ci) => {
-                //             this.Create(ch, e[keys], 'children');
-                //         })
-                //         e[keys].children.filter((ch, ci) => {
-                //             // this.Create(ch, e[keys], 'children');
-                //             this.AppendDoc({ inner: ch, parent: e[keys] })
-                //         })
-                //     }
-                // }
             })
         } else {
         }

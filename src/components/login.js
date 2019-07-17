@@ -3,6 +3,16 @@ export default {
         css: {
             backgroundColor: 'orange'
         },
-        text: 'Login page'
+        text: 'Login page',
+        children: [
+            {
+                a: {
+                    Props: {
+                        href: "/#/",
+                        text: 'index'
+                    }
+                }
+            }
+        ]
     }
 }

@@ -18,26 +18,23 @@ let o = {
         }
     },
 }
-// methods.loading(['./assets/index.css'])
+methods.loading(['./assets/index.css'])
 const int = new Initial(o)
 
 //初始化 路由导航
 if (router.components) {
     o.DOM.div.children[0] = router.components
-    int.Create(o.DOM, function() {
-        console.log('DOM', o.DOM);
-        
+    int.Create(o.DOM, function () {
+        int.AppendDoc(o.DOM)
     });
     // int.AppendDoc(o.DOM)
 }
 //监听components的变化
 int.watch(router, 'components', (v) => {
-    console.log('---components', v, int);
-    // document.body.innerHTML = ""
     o.DOM.div.children[0] = v
-    int.Create(o.DOM, function() {
+    int.Create(o.DOM, function () {
         console.log('DOM_change', o.DOM);
-        
+        int.AppendDoc(o.DOM)
     });
     // int.AppendDoc(o.DOM)
 })

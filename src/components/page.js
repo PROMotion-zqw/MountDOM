@@ -3,6 +3,16 @@ export default {
         css: {
             backgroundColor: 'skyblue'
         },
-        text: "Other page"
+        text: "Other page",
+        children: [
+            {
+                a: {
+                    Props: {
+                        href: '/#/login',
+                        text: 'login'
+                    }
+                }
+            }
+        ]
     }
 }
