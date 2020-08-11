@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MountDOM.JS</title>
+</head>
+<body>
+    <div id="root"></div>
+    <script src="./Mount.js"></script>
+    <script>
+        var root = document.getElementById("root"),
+        App = MountDOM.Component({
+            el: 'h3',
+            id: ['id'],
+            css: {
+                position: 'fixed',
+                top: '20%',
+                left: '50%',
+                transform: 'translateX(-50%)',
+                userSelect: 'none'
+            },
+            text: "MountDOM.JS",
+            data: {
+                id: 'app',
+                checkColor: false
+            }
+        }),
+        Mount = new MountDOM({
+            el: root,
+            view: App,
+            watch_screen: true
+        });
+        App.addEvent('click', function (e) {
+            this.checkColor = !this.checkColor;
+            this.css({
+                color: this.checkColor ? 'red' : 'black'
+            })
+        })
+
+
+        // Mount.Render()
+
+    </script>
+</body>
+</html>
