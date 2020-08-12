@@ -1,35 +1,60 @@
-// 继承接口
-interface Shape {
-    color: string;
+// // 剩余参数
+// function buildName (firstName: string, ...restOfName: string[]) {
+//     return firstName + " " + restOfName.join(" ");
+// }
+
+// let emp = buildName("Joseph", "Samuel", "Lucas", "MacKinzie");
+// console.log("emp", emp);
+
+// function f(this: void) {
+//     console.log(this);
+//     // make sure `this` is unusable in this standalone function
+// }
+// f()
+
+// this
+// interface Card {
+//     suit: string;
+//     card: number;
+// }
+// interface Deck {
+//     suits: string[];
+//     cards: number[];
+//     createCardPicker(this: Deck): () => Card;
+// }
+// let deck: Deck = {
+//     suits: ["hearts", "spades", "clubs", "diamonds"],
+//     cards: Array(52),
+//     // NOTE: The function now explicitly specifies that its callee must be of type Deck
+//     createCardPicker: function(this: Deck) {
+//         return () => {
+//             let pickedCard = Math.floor(Math.random() * 52);
+//             let pickedSuit = Math.floor(pickedCard / 13);
+//             console.log("ccc", this);
+            
+//             return {suit: this.suits[pickedSuit], card: pickedCard % 13};
+//         }
+//     }
+// }
+
+// let cardPicker = deck.createCardPicker();
+// let pickedCard = cardPicker();
+
+
+interface UIElement {
+    addClickListener(onclick: (this: void, e: Event) => void): void;
 }
 
-interface PenStroke {
-    penWdith: number;
+interface Dog {
+    name: string;
 }
 
-// 继承一个结构
-interface Square extends Shape {
-    sideLength: number;
+interface Cat {
+    age: number;
 }
 
-interface Square_mul extends Shape, PenStroke {
-    sideLength: number;
+interface Cloner {
+    clone(animal: Dog): Dog;
 }
+let c: Cloner;
 
-// 继承多个接口
-let square_m = <Square_mul>{};
-square_m.penWdith = 200;
-square_m.color = "red";
-square_m.sideLength = 10;
-
-let square = <Square>{};
-square.sideLength = 100;
-square.color = "red";
-
-function start(ps: Square | Square_mul): void {
-    console.log(ps.color, ps.sideLength);
-}
-
-let par = {color: "red", name: 'quanwei', sideLength: 100}
-console.log('square', square);
-start(par)

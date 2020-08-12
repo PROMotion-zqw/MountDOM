@@ -176,7 +176,6 @@ var Propertys = {
 }
 
 function MountDOM (options) {
-    // deleteObj(MountDOM)
     this.Render(options)
 };
 
